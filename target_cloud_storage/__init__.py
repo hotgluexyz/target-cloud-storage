@@ -56,6 +56,10 @@ def upload(args):
     for root, dirs, files in os.walk(local_path):
         for file in files:
             file_path = os.path.join(root, file)
+            # Skip certain files, can be configurable using config file
+            if file in ["data.txt", "data.singer"]:
+                logger.debug(f"Skipping : {bucket_name}:/{file}")
+                continue
             remote_file_path = file_path.replace(local_path, target_path)
 
             logger.debug(f"Uploading: {bucket_name}:{remote_file_path}/{file}")
