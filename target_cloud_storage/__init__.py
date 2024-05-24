@@ -51,8 +51,8 @@ def upload(args):
     skip_files = config.get('skip_files', [])
 
     # Upload all data in input_path to Google Cloud Storage
-    # storage_client = storage.Client.from_service_account_json(args.config_path)
-    # bucket = storage_client.bucket(bucket_name)
+    storage_client = storage.Client.from_service_account_json(args.config_path)
+    bucket = storage_client.bucket(bucket_name)
 
     for root, dirs, files in os.walk(local_path):
         for file in files:
@@ -69,8 +69,8 @@ def upload(args):
 
             logger.debug(f"Uploading: {bucket_name}:{remote_file_path}/{file}")
 
-            # blob = bucket.blob(remote_file_path)
-            # blob.upload_from_filename(file_path)
+            blob = bucket.blob(remote_file_path)
+            blob.upload_from_filename(file_path)
 
     logger.debug(f"Data exported.")
 
