@@ -48,6 +48,7 @@ def upload(args):
     bucket_name = config['bucket']
     target_path = config['path_prefix']
     local_path = config['input_path']
+    skip_files = config.get('skip_files', [])
 
     # Upload all data in input_path to Google Cloud Storage
     storage_client = storage.Client.from_service_account_json(args.config_path)
@@ -56,6 +57,14 @@ def upload(args):
     for root, dirs, files in os.walk(local_path):
         for file in files:
             file_path = os.path.join(root, file)
+            if skip_files:
+                #Hotglue widget sends comma separated values
+                if isinstance(skip_files, str):
+                    skip_files = skip_files.split(",")
+                # Skip certain files, can be configurable using config file
+                if file in skip_files:
+                    logger.debug(f"Skipping : {bucket_name}:/{file}")
+                    continue
             remote_file_path = file_path.replace(local_path, target_path)
 
             logger.debug(f"Uploading: {bucket_name}:{remote_file_path}/{file}")
