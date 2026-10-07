@@ -14,8 +14,8 @@ setup(
         'google-cloud-storage==1.36.2',
         # 4.x crashes on Python 3.14 (custom tp_new metaclasses). 5.29.x does not.
         'protobuf==5.29.6',
-        # storage 1.36 still imports pkg_resources, removed in setuptools 81+.
-        'setuptools>=40.3.0,<81',
+        # storage 1.36 still imports pkg_resources, removed in setuptools 82.
+        'setuptools>=40.3.0,<82',
         # cgi was removed from the stdlib in 3.13; storage 1.36 still imports it.
         'legacy-cgi==2.6.4; python_version>="3.13"',
         'argparse==1.4.0'
